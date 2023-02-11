@@ -216,6 +216,7 @@ def check_key():
 
         #     with open(file, 'wb') as thefile:
         #         thefile.write(decrypted_content)
+        app.destroy()
 
     else:
         messagebox.showerror("Error!", "Your key is wrong!, please try again.")
