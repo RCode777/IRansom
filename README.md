@@ -7,7 +7,8 @@
 
 ```
 Don't recode please,
-if you want to make ransomware too, you can use this script as a code reference, 
+if you want to make ransomware too, 
+you can use this script as a code reference, 
 but not by copying all the code 
 and changing the name and appearance.
 
