@@ -6,7 +6,10 @@
 <img src="https://cdn.discordapp.com/attachments/1134468557858672794/1134713512644587630/Ooops_your_files.png" width="500px">
 
 ```
-Don't recode please, <br> if you want to make ransomware too, you can use this script as a code reference, but not by copying all the code and changing the name and appearance.
+Don't recode please,
+if you want to make ransomware too, you can use this script as a code reference, 
+but not by copying all the code 
+and changing the name and appearance.
 
 Regards
 R.Code
